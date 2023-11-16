@@ -1,1 +1,0 @@
-# Adding non structured functionality
