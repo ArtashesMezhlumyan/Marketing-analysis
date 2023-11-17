@@ -44,5 +44,22 @@ class MovieRecommender:
         movie_indices = [i[0] for i in sim_scores]
 
         # Return the top 10 most similar movies
-        return self.movie_data['title'].iloc[movie_indices]
+        return list(self.movie_data['title'].iloc[movie_indices])
+    
+    def get_movie_id(self, movie_title):
+        # Get the index of the movie that matches the title
+        indices = pd.Series(self.movie_data.index, index=self.movie_data['title']).drop_duplicates()
+        movie_id = indices.get(movie_title)
+        
+        return movie_id
 
+
+# movie_data = preview('MovieMetadata')
+# #print(movie_data)
+# recommender = MovieRecommender(movie_data)
+# recommendations = recommender.recommend_movies('Polarized zero tolerance strategy', num_recommendations=10)
+# print(recommendations)
+
+# recommender = MovieRecommender(movie_data)
+# movie_id = recommender.get_movie_id('Polarized zero tolerance strategy')
+# print(f"ID of 'Polarized zero tolerance strategy': {movie_id}")

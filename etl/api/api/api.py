@@ -1,3 +1,4 @@
+
 from fastapi import FastAPI, HTTPException
 import sqlite3
 import logging
@@ -5,7 +6,9 @@ import logging
 import os
 from pydantic import BaseModel
 from typing import Any
-
+from ...movie_recommender.recommender import MovieRecommender
+from ...movie_recommender.database import preview
+import random
 #create instance called app
 app=FastAPI()
 
@@ -122,6 +125,39 @@ async def update_record(update_request: UpdateRecordRequest):
         # Closing the database connection in the 'finally' block
         db.close()
 
+@app.get("/recomend")
+async def recomend(title: str):
+    # Open a connection to the database
+    movie_data = preview('MovieMetadata')
+    recommender = MovieRecommender(movie_data)
+    recommendations = recommender.recommend_movies(title, num_recommendations=10)
+    if recommendations is None:
+        return {"error": "Record not found"}
+
+     
+    db = get_db()
+    cursor = db.cursor()
+
+    # Defining the SQL query to insert data into the table
+    insert_query = """
+    INSERT INTO inout (
+        movie_id, input_movie, output_recommendations
+    )
+    VALUES (?, ?, ?)
+    """
+    # Generate a random movie_id
+    movie_id = recommender.get_movie_id(title)  # Adjust the range as needed
+
+   # Convert the list of recommendations to a long string
+    recommendations_str = ', '.join(recommendations)
+    # Executing the insert query with the data
+    cursor.execute(insert_query, (int(movie_id), title, recommendations_str))
+
+    # Committing the transaction to save the data in the database
+    db.commit()
+
+    
+    return recommendations
 
 # Columns: ['movie_id', 'title', 'budget', 'revenue', 'release_date', 'language', 'production_country', 'production_company']
 # import sqlite3
