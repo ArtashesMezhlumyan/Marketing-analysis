@@ -17,7 +17,7 @@ In data preperation directory we have:
 
 # Step 1
 
-.
+
 Run `schema_builder.py` which will create  `temp.db` file in your folder.
 
 # Step 2
@@ -54,4 +54,7 @@ rating.csv: The subset of  ratings from  users on  movies.
 ## MK Docks
 
 Link to our MK Docks: https://petopet7.github.io/MK_Docs-1/
+
+## Example Of Uage
+You can find example.ipynb and example.slides.html files in our github which shows how you can useour package.
 
