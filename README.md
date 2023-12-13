@@ -56,5 +56,5 @@ rating.csv: The subset of  ratings from  users on  movies.
 Link to our MK Docks: https://petopet7.github.io/MK_Docs-1/
 
 ## Example Of Uage
-You can find example.ipynb and example.slides.html files in our github which shows how you can useour package.
+You can find "example.ipynb" and "example.slides.html" files in our github which shows how you can use our package.
 
